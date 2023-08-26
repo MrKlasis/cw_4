@@ -11,18 +11,7 @@ class VacancyAPI(ABC):
         pass
 
 
-def connect_to_platform_a():
-    # Логика подключения к API платформы A
-    print("Connected to Platform A")
-
-
 class MyVacancyAPI:
-    hh = "https://api.hh.ru/"
-    sj = "https://api.superjob.ru/:version/method_name/:params"
-
-    platform_a = PlatformA(hh)
-    platform_b = PlatformB(sj)
-
     def get_vacancies_from_platform_a(self):
         # Логика получения вакансий с платформы A
         vacancies = [
@@ -52,8 +41,8 @@ class MyVacancyAPI:
         return vacancies
 
 
-class PlatformA(VacancyAPI):
-    #hh.ru
+class PlatformA(MyVacancyAPI):
+    # hh.ru
     def __init__(self, api):
         self.api = api
 
@@ -64,8 +53,8 @@ class PlatformA(VacancyAPI):
         return self.api.get_vacancies_from_platform_a()
 
 
-class PlatformB(VacancyAPI):
-    #superjob
+class PlatformB(MyVacancyAPI):
+    # superjob
     def __init__(self, api):
         self.api = api
 
@@ -76,5 +65,8 @@ class PlatformB(VacancyAPI):
         return self.api.get_vacancies_from_platform_b()
 
 
-
-
+# API для сайтов
+hh = "https://api.hh.ru/"
+sj = "https://api.superjob.ru/:version/method_name/:params"
+platform_a = PlatformA(hh)
+platform_b = PlatformB(sj)
