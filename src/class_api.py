@@ -1,13 +1,31 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
-class ApiAbc(ABC):
-    pass
+class VacancyAPI(ABC):
+    @abstractmethod
+    def connect(self):
+        pass
+
+    @abstractmethod
+    def get_vacancies(self):
+        pass
 
 
-class HH(ApiAbc):
-    pass
+class PlatformA(VacancyAPI):
+    def connect(self):
+        # Подключение к API платформы A
+        pass
+
+    def get_vacancies(self):
+        # Получение вакансий с платформы A
+        pass
 
 
-class Superjob(ApiAbc):
-    pass
+class PlatformB(VacancyAPI):
+    def connect(self):
+        # Подключение к API платформы B
+        pass
+
+    def get_vacancies(self):
+        # Получение вакансий с платформы B
+        pass
