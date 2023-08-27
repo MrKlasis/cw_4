@@ -1,3 +1,5 @@
+import os
+import requests
 from abc import ABC, abstractmethod
 
 
@@ -10,14 +12,18 @@ class VacancyAPI(ABC):
     def get_vacancies(self):
         pass
 
+    def connect_to_hh(self):
+        self.api.connect_to_hh
+        print("Connected to hh")
+
     def get_vacancies_from_hh(self):
     # Логика получения вакансий с hh
     res = requests.get("https://api.hh.ru/vacancies", params={"text": "python"})
     print(res.json()["items"])
 
     def connect_to_superjob(self):
-        # Логика подключения к API superjob
-        print("Connected to Platform B")
+        self.api.connect_to_superjob()
+        print("Connected to Superjob")
 
     def get_vacancies_from_superjob(self):
         headers = {"X-Api-App-Id": os.environ["SUPERJOB_API_KEY"]}
