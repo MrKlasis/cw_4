@@ -10,63 +10,47 @@ class VacancyAPI(ABC):
     def get_vacancies(self):
         pass
 
+    def get_vacancies_from_hh(self):
+    # Логика получения вакансий с hh
+    res = requests.get("https://api.hh.ru/vacancies", params={"text": "python"})
+    print(res.json()["items"])
 
-class MyVacancyAPI:
-    def get_vacancies_from_platform_a(self):
-        # Логика получения вакансий с платформы A
-        vacancies = [
-            {"title": "Job A1", "link": "https://example.com/job-a1", "salary": 50000,
-             "description": "Description A1"},
-            {"title": "Job A2", "link": "https://example.com/job-a2", "salary": 60000,
-             "description": "Description A2"},
-            {"title": "Job A3", "link": "https://example.com/job-a3", "salary": 55000,
-             "description": "Description A3"}
-        ]
-        return vacancies
-
-    def connect_to_platform_b(self):
-        # Логика подключения к API платформы B
+    def connect_to_superjob(self):
+        # Логика подключения к API superjob
         print("Connected to Platform B")
 
-    def get_vacancies_from_platform_b(self):
-        # Логика получения вакансий с платформы B
-        vacancies = [
-            {"title": "Job B1", "link": "https://example.com/job-b1", "salary": 45000,
-             "description": "Description B1"},
-            {"title": "Job B2", "link": "https://example.com/job-b2", "salary": 65000,
-             "description": "Description B2"},
-            {"title": "Job B3", "link": "https://example.com/job-b3", "salary": 52000,
-             "description": "Description B3"}
-        ]
-        return vacancies
+    def get_vacancies_from_superjob(self):
+        headers = {"X-Api-App-Id": os.environ["SUPERJOB_API_KEY"]}
+        requests.get("https://api.superjob.ru/2.0/vacancies/", headers=headers, params={"keywords": "python"})
+        print(res.json()["objects"])
 
 
-class PlatformA(MyVacancyAPI):
+class HH(VacancyAPI):
     # hh.ru
     def __init__(self, api):
         self.api = api
 
     def connect(self):
-        self.api.connect_to_platform_a()
+        self.api.connect_to_hh()
 
     def get_vacancies(self):
-        return self.api.get_vacancies_from_platform_a()
+        return self.api.get_vacancies_from_hh()
 
 
-class PlatformB(MyVacancyAPI):
+class Superjob(VacancyAPI):
     # superjob
     def __init__(self, api):
         self.api = api
 
     def connect(self):
-        self.api.connect_to_platform_b()
+        self.api.connect_to_superjob()
 
     def get_vacancies(self):
-        return self.api.get_vacancies_from_platform_b()
+        return self.api.get_vacancies_from_superjob()
 
 
 # API для сайтов
 hh = "https://api.hh.ru/"
 sj = "https://api.superjob.ru/:version/method_name/:params"
-platform_a = PlatformA(hh)
-platform_b = PlatformB(sj)
+HH = HH(hh)
+Superjob = Superjob(sj)
